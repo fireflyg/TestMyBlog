@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div style="width: 100%; height: 417px; background: #333333; position: relative">
+        <h1 style="font-size: 50px; color: white; text-align: center; position: absolute; top: 50%; left: 50%; margin-top: -33px; margin-left: -98px" id="title"></h1>
+    </div>
+    <div id="tags"></div>
+    <div id="author"></div>
+    <div id="content"></div>
+    <div id="message"></div>
+
+    <div>
+        <input type="text" placeholder="name" id="msgName"><br/>
+        <input type="text" placeholder="email" id="msgEmail"><br/>
+        <textarea onautocomplete="content" id="msgContent" > </textarea>
+        <button onclick="sendMsg()">发表评论</button>
+    </div>
+
+    <script>
+        var paramList = location.search.split("?")[1].split("&");
+        var blogId = 0;
+        for (var i = 0 ; i < paramList.length ; i ++) {
+            var kv = paramList[i].split("=");
+            if (kv[0] == "blogId") {
+                blogId = kv[1];
+            }
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("get", "blogDetail?id=" + blogId);//站内，模块内访问
+        xhr.onreadystatechange = function(){
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                // console.log(xhr.responseText);
+                // document.getElementById("test").innerHTML = xhr.responseText;
+                var blog = JSON.parse(xhr.responseText);
+                document.getElementById("title").innerHTML = blog.title;
+                document.getElementById("content").innerHTML = blog.content;
+                document.getElementById("author").innerHTML = blog.author;
+            }
+        };
+        xhr.send();
+
+        var xhr2 = new XMLHttpRequest();
+        xhr2.open("get", "queryMessage?blogId=" + blogId);//站内，模块内访问
+        xhr2.onreadystatechange = function(){
+            if (xhr2.readyState == 4 && xhr2.status == 200) {
+                // console.log(xhr.responseText);
+                // document.getElementById("test").innerHTML = xhr.responseText;
+                var messageList = JSON.parse(xhr2.responseText);
+                console.log(messageList);
+                for (var i = 0 ; i < messageList.length ; i ++) {
+                    var temp = document.createElement("p");
+                    temp.innerHTML = messageList[i].name + " : " + messageList[i].content;
+                    document.getElementById("message").appendChild(temp);
+                }
+
+            }
+        };
+        xhr2.send();
+
+        var xhr3 = new XMLHttpRequest();
+        xhr3.open("get", "blogTags?blogId=" + blogId);//站内，模块内访问
+        xhr3.onreadystatechange = function(){
+            if (xhr3.readyState == 4 && xhr3.status == 200) {
+                var tagsList = JSON.parse(xhr3.responseText);
+                for (var i = 0 ; i < tagsList.length ; i ++) {
+                    var span = document.createElement("span");
+                    span.innerHTML = tagsList[i].tag;
+                    document.getElementById("tags").appendChild(span);
+                }
+            }
+        };
+        xhr3.send();
+        
+        function sendMsg() {
+            var name = document.getElementById("msgName").value;
+            var email = document.getElementById("msgEmail").value;
+            var content = document.getElementById("msgContent").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("get", "createMessage?blogId=" + blogId + "&name=" + name + "&email=" + email + "&content=" + content);//站内，模块内访问
+            xhr.onreadystatechange = function(){
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    location.href = location.href;
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <welcome-file-list>
+        <welcome-file>main.html</welcome-file>
+    </welcome-file-list>
+
+    <servlet>
+        <servlet-name>BlogList</servlet-name>
+        <servlet-class>com.duyi.blog.controller.BlogListController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BlogList</servlet-name>
+        <url-pattern>/blogList</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>BlogCreater</servlet-name>
+        <servlet-class>com.duyi.blog.controller.BlogCreaterController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BlogCreater</servlet-name>
+        <url-pattern>/createBlog</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TagsAll</servlet-name>
+        <servlet-class>com.duyi.blog.controller.TagsAllController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TagsAll</servlet-name>
+        <url-pattern>/allTags</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>BlogDetail</servlet-name>
+        <servlet-class>com.duyi.blog.controller.BlogDetailController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BlogDetail</servlet-name>
+        <url-pattern>/blogDetail</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>MessageCreate</servlet-name>
+        <servlet-class>com.duyi.blog.controller.MessageCreateController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MessageCreate</servlet-name>
+        <url-pattern>/createMessage</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>MessageQuery</servlet-name>
+        <servlet-class>com.duyi.blog.controller.MessageQueryController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MessageQuery</servlet-name>
+        <url-pattern>/queryMessage</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>BlogThumbs</servlet-name>
+        <servlet-class>com.duyi.blog.controller.BlogThumbsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BlogThumbs</servlet-name>
+        <url-pattern>/blogThumbs</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>BlogCount</servlet-name>
+        <servlet-class>com.duyi.blog.controller.BlogCountController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BlogCount</servlet-name>
+        <url-pattern>/blogCount</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>BlogTags</servlet-name>
+        <servlet-class>com.duyi.blog.controller.BlogTagsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BlogTags</servlet-name>
+        <url-pattern>/blogTags</url-pattern>
+    </servlet-mapping>
+
+</web-app>

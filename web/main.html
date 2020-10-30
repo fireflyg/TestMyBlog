@@ -1,0 +1,100 @@
+<!--<%@ page contentType="text/html;charset=UTF-8" language="java" %>-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div style="width: 100%; height: 417px; background: #333333; position: relative">
+        <h1 style="font-size: 50px; color: white; text-align: center; position: absolute; top: 50%; left: 50%; margin-top: -33px; margin-left: -98px">MyBlog</h1>
+    </div>
+    <div>
+        <!--左边的部分-->
+        <div id="test">
+
+        </div>
+        <button onclick="qian()">向前翻页</button>
+        <button onclick="hou()">向后翻页</button>
+        <!--右边的部分-->
+        <div></div>
+    </div>
+    <div></div>
+</body>
+<script>
+    var pageNum = 1;
+    var pageSize = 3;
+
+    function queryList(offset, size) {
+        var xhr = new XMLHttpRequest();
+        // xhr.open("get", "http://127.0.0.1:8080/TestMyBlog/blogList");//适合访问站外链接
+        // xhr.open("get", "/TestMyBlog/blogList");//当前站内，跨模块访问
+        xhr.open("get", "blogList?offset=" + offset + "&size=" + size);//站内，模块内访问
+        xhr.onreadystatechange = function(){
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                // console.log(xhr.responseText);
+                // document.getElementById("test").innerHTML = xhr.responseText;
+                var resultList = JSON.parse(xhr.responseText);
+                for (var i = 0 ; i < resultList.length ; i ++) {
+                    var div = document.createElement("div");
+
+                    var h2 = document.createElement("h2");
+                    h2.innerHTML = resultList[i].title;
+                    var a = document.createElement("a");
+                    a.appendChild(h2);
+                    a.href = "./blogDetail.html?blogId=" + resultList[i].id;
+                    var content = document.createElement("p");
+                    content.innerHTML = resultList[i].content;
+                    var foot = document.createElement("div");
+                    foot.innerHTML = "Post by " + resultList[i].author + " on " + resultList[i].ctime;
+                    div.appendChild(a);
+                    div.appendChild(content);
+                    div.appendChild(foot);
+                    document.getElementById("test").appendChild(div);
+                }
+
+            }
+        };
+        xhr.send();
+    }
+    queryList(0, 3);
+
+    function hou() {
+        //查看总条数，判断能不能向后翻页
+        var xhr = new XMLHttpRequest();
+        xhr.open("get", "blogCount");//站内，模块内访问
+        xhr.onreadystatechange = function(){
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var total = xhr.responseText;
+                if (pageNum * pageSize >= total) {
+                    alert("已经是最后页了");
+                    return;
+                } else {
+                    pageNum ++;
+                    document.getElementById("test").innerHTML = "";
+                    queryList((pageNum - 1) * pageSize, pageSize);
+                }
+            }
+        };
+        xhr.send();
+    }
+    function qian() {
+        //查看当前页数，判断能不能向前翻页
+        // 如果当前页为1，直接返回，不做操作
+        // 如果当前页不为1，页数减1，重新查询
+        if (pageNum > 1) {
+            pageNum --;
+            document.getElementById("test").innerHTML = "";
+            queryList((pageNum - 1) * pageSize, pageSize);
+        } else {
+            alert("已经是最前页了");
+            return;
+        }
+    }
+</script>
+</html>
