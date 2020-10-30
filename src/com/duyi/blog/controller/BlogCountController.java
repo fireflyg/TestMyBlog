@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * 博客文章的controller
+ */
 public class BlogCountController extends HttpServlet {
 
     BlogService blogService = new BlogService();
